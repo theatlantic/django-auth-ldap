@@ -1,0 +1,10 @@
+/build
+/dist
+/docs/build
+/MANIFEST
+/*.egg-info
+*.log
+*.py[oc]
+*.egg
+pip-log.txt
+.DS_Store
