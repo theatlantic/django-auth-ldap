@@ -56,7 +56,12 @@ import pprint
 import copy
 
 import django.db
-from django.contrib.auth.models import User, Group, Permission, SiteProfileNotAvailable
+from django.contrib.auth.models import User, Group, Permission
+try:
+    from django.contrib.auth.models import SiteProfileNotAvailable
+except ImportError:
+    class SiteProfileNotAvailable(Exception): pass
+
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 import django.dispatch
