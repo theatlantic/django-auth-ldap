@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 
-import sys
-
 from setuptools import setup
-
-
-PY3 = (sys.version_info[0] == 3)
 
 
 setup(
@@ -47,7 +42,7 @@ setup(
     keywords=["django", "ldap", "authentication", "auth"],
     install_requires=[
         "django",
-        "pyldap" if PY3 else "python-ldap >= 2.0",
+        "pyldap",
     ],
     setup_requires=[
         "setuptools >= 0.6c11",
