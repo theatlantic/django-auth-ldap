@@ -1,0 +1,7 @@
+.tox/
+*.egg-info/
+.python-version
+*.pyc
+*.pyo
+*.mo
+*.db

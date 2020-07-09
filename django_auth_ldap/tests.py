@@ -29,6 +29,7 @@ from copy import deepcopy
 import logging
 import pickle
 import warnings
+import unittest
 
 import ldap
 try:
@@ -43,22 +44,8 @@ from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 import django.db.models.signals
 from django.test import TestCase
-
-try:
-    from django.utils.encoding import force_str
-except ImportError:  # Django < 1.5
-    from django.utils.encoding import smart_str as force_str
-
-try:
-    from django.utils import unittest
-except ImportError:
-    import unittest
-
-try:
-    from django.test.utils import override_settings
-except ImportError:
-    def override_settings(*args, **kwargs):
-        return lambda v: v
+from django.utils.encoding import force_str
+from django.test.utils import override_settings
 
 from django_auth_ldap.models import TestUser, TestProfile
 from django_auth_ldap import backend
@@ -1313,7 +1300,7 @@ class LDAPTest(TestCase):
         for name in ('mirror{}'.format(i) for i in range(1, 5)):
             groups[name] = Group.objects.create(name=name)
         alice = self.backend.populate_user('alice')
-        alice.groups = [groups['mirror2'], groups['mirror4']]
+        alice.groups.set([groups['mirror2'], groups['mirror4']])
 
         alice = self.backend.authenticate(username='alice', password='password')
 
@@ -1335,7 +1322,7 @@ class LDAPTest(TestCase):
         for name in ('mirror{}'.format(i) for i in range(1, 5)):
             groups[name] = Group.objects.create(name=name)
         alice = self.backend.populate_user('alice')
-        alice.groups = [groups['mirror1'], groups['mirror3']]
+        alice.groups.set([groups['mirror1'], groups['mirror3']])
 
         alice = self.backend.authenticate(username='alice', password='password')
 
@@ -1357,7 +1344,7 @@ class LDAPTest(TestCase):
         for name in ('mirror{}'.format(i) for i in range(1, 5)):
             groups[name] = Group.objects.create(name=name)
         alice = self.backend.populate_user('alice')
-        alice.groups = [groups['mirror2'], groups['mirror4']]
+        alice.groups.set([groups['mirror2'], groups['mirror4']])
 
         alice = self.backend.authenticate(username='alice', password='password')
 
@@ -1379,7 +1366,7 @@ class LDAPTest(TestCase):
         for name in ('mirror{}'.format(i) for i in range(1, 5)):
             groups[name] = Group.objects.create(name=name)
         alice = self.backend.populate_user('alice')
-        alice.groups = [groups['mirror1'], groups['mirror3']]
+        alice.groups.set([groups['mirror1'], groups['mirror3']])
 
         alice = self.backend.authenticate(username='alice', password='password')
 

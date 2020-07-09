@@ -28,7 +28,7 @@ INSTALLED_APPS = (
     'django_auth_ldap',
 )
 
-MIDDLEWARE_CLASSES = []
+MIDDLEWARE = []
 
 AUTH_USER_MODEL = 'auth.User'
 
