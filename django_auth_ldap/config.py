@@ -35,10 +35,7 @@ import logging
 import pprint
 
 from django.utils.tree import Node
-try:
-    from django.utils.encoding import force_str
-except ImportError:  # Django < 1.5
-    from django.utils.encoding import smart_str as force_str
+from django.utils.encoding import force_str
 
 
 class ConfigurationWarning(UserWarning):

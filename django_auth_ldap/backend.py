@@ -54,34 +54,16 @@ import sys
 import traceback
 import warnings
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User, Group, Permission
 import django.conf
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 import django.dispatch
-try:
-    from django.utils.encoding import force_str
-except ImportError:  # Django < 1.5
-    from django.utils.encoding import smart_str as force_str
+from django.utils.encoding import force_str
 
-# Django 1.7 Removed custom profiles
-try:
-    from django.contrib.auth.models import SiteProfileNotAvailable
-except ImportError:
-    SiteProfileNotAvailable = Exception
+SiteProfileNotAvailable = Exception
 
-# Support Django 1.5's custom user models
-try:
-    from django.contrib.auth import get_user_model
-
-    def get_user_username(user):
-        return user.get_username()
-except ImportError:
-    def get_user_model():
-        return User
-
-    def get_user_username(user):
-        return user.username
 
 # Small compatibility hack
 try:
@@ -93,6 +75,9 @@ from django_auth_ldap.config import ConfigurationWarning, _LDAPConfig, LDAPGroup
 
 
 logger = _LDAPConfig.get_logger()
+
+def get_user_username(user):
+    return user.get_username()
 
 
 # Exported signals
@@ -793,7 +778,8 @@ class _LDAPUser(object):
             new_groups = [Group.objects.get_or_create(name=name)[0] for name
                           in target_group_names if name not in existing_group_names]
 
-            self._user.groups = existing_groups + new_groups
+            # self._user.groups = existing_groups + new_groups
+            self._user.groups.set(existing_groups + new_groups)
 
     #
     # Group information
