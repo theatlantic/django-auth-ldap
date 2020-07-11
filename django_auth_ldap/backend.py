@@ -778,7 +778,6 @@ class _LDAPUser(object):
             new_groups = [Group.objects.get_or_create(name=name)[0] for name
                           in target_group_names if name not in existing_group_names]
 
-            # self._user.groups = existing_groups + new_groups
             self._user.groups.set(existing_groups + new_groups)
 
     #
